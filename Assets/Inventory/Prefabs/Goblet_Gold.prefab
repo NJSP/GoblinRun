@@ -12,6 +12,8 @@ GameObject:
   - component: {fileID: 967818345347478344}
   - component: {fileID: 8266580379281789196}
   - component: {fileID: 3236701768711880596}
+  - component: {fileID: 7367207176019963717}
+  - component: {fileID: 2238283541257467381}
   m_Layer: 0
   m_Name: Goblet_Gold
   m_TagString: Untagged
@@ -48,7 +50,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemData: {fileID: 11400000, guid: c4c484d7cfd4b9d4683854bc3e670e96, type: 2}
-  prefab: {fileID: 2096741367661706754, guid: 7f6ab31db00d0b347905a6495c69ae3e, type: 3}
+  prefab: {fileID: 5585640700876931966}
 --- !u!54 &8266580379281789196
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -97,6 +99,40 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.1799568, y: 0.456459, z: 0.22686012}
   m_Center: {x: 0.001442492, y: 0.16, z: -0.0024580732}
+--- !u!135 &7367207176019963717
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5585640700876931966}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0.12, z: 0}
+--- !u!114 &2238283541257467381
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5585640700876931966}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c632fe322b121b4284ac26e168911b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemData: {fileID: 11400000, guid: c4c484d7cfd4b9d4683854bc3e670e96, type: 2}
 --- !u!1001 &8436351691947532388
 PrefabInstance:
   m_ObjectHideFlags: 0

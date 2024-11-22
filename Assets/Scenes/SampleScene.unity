@@ -133,7 +133,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3839110998531740895, guid: 61296f21aa7495344bcc4926664663d7, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.14
+      value: -0.53
       objectReference: {fileID: 0}
     - target: {fileID: 3839110998531740895, guid: 61296f21aa7495344bcc4926664663d7, type: 3}
       propertyPath: m_LocalPosition.z
@@ -195,11 +195,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 726986633822493647, guid: d5ba330f7a948d64a93ccfdef10f5bb4, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.8434676
+      value: -0.93
       objectReference: {fileID: 0}
     - target: {fileID: 726986633822493647, guid: d5ba330f7a948d64a93ccfdef10f5bb4, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.044452198
+      value: 1.19
       objectReference: {fileID: 0}
     - target: {fileID: 726986633822493647, guid: d5ba330f7a948d64a93ccfdef10f5bb4, type: 3}
       propertyPath: m_LocalRotation.w
@@ -233,7 +233,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: TestGoblet
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 967818345347478344, guid: d5ba330f7a948d64a93ccfdef10f5bb4, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -326,7 +327,7 @@ Transform:
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
   m_LocalRotation: {x: 0.3826835, y: -0.000000009802732, z: 0.0000000040604253, w: 0.92387956}
-  m_LocalPosition: {x: 0, y: 10.14, z: -10}
+  m_LocalPosition: {x: 0, y: 9.47, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -862,7 +863,7 @@ Transform:
   m_GameObject: {fileID: 2126446159}
   serializedVersion: 2
   m_LocalRotation: {x: 0.3826835, y: -0.000000009802731, z: 0.000000004060425, w: 0.9238795}
-  m_LocalPosition: {x: 0, y: 10.14, z: -10}
+  m_LocalPosition: {x: 0, y: 9.47, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

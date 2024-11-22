@@ -26,7 +26,7 @@ public class GoblinController : MonoBehaviour
         float speed = movement.magnitude; // 0 when stationary, >0 when moving
         animator.SetFloat("Speed", speed);
         //Debug.Log("Speed: " + speed);
-        Debug.Log(animator.GetFloat("Speed"));
+        //Debug.Log(animator.GetFloat("Speed"));
     }
 
     private void FixedUpdate()
