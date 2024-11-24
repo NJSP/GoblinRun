@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class ObjectPool : MonoBehaviour
 {
-    public GameObject prefab;
+    public GameObject prefab; 
     private Queue<GameObject> pool = new Queue<GameObject>();
 
     public GameObject GetObject()
@@ -16,7 +16,7 @@ public class ObjectPool : MonoBehaviour
         }
         else
         {
-            return Instantiate(prefab);
+            return Instantiate(prefab); // Instantiate a single GameObject
         }
     }
 

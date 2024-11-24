@@ -6,11 +6,12 @@ internal class InventoryComponent : MonoBehaviour
 {
     private List<ItemSO> inventory;
     private List<ItemPickup> overlappingItems = new List<ItemPickup>();
-    public ObjectPool itemPool; // Reference to the ObjectPool
+    public ObjectPooler itemPool; // Reference to the ObjectPooler
 
     void Start()
     {
         inventory = new List<ItemSO>();
+        itemPool = ObjectPooler.Instance;
     }
 
     public void AddItem(string name, int value)
@@ -55,10 +56,12 @@ internal class InventoryComponent : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.I))
         {
+            int totalValue = 0;
             foreach (ItemSO item in inventory)
             {
-                Debug.Log($"Item: {item.itemName}, Value: {item.value}");
+                totalValue += item.value;
             }
+            Debug.Log($"Total value of items: {totalValue}");
         }
 
         if (Input.GetKeyDown(KeyCode.Z))
@@ -75,12 +78,10 @@ internal class InventoryComponent : MonoBehaviour
         if (inventory.Count > 0)
         {
             ItemSO lowestValueItem = GetLowestValueItem();
-            GameObject itemPrefab = lowestValueItem.prefab;
-            if (itemPrefab != null)
+            string itemTag = lowestValueItem.itemName; // Assuming itemName is used as the tag
+            GameObject item = itemPool.SpawnFromPool(itemTag, transform.position + Vector3.up, Quaternion.identity);
+            if (item != null)
             {
-                GameObject item = itemPool.GetObject();
-                item.transform.position = transform.position + Vector3.up;
-                item.transform.rotation = Quaternion.identity;
                 Rigidbody rb = item.GetComponent<Rigidbody>();
                 if (rb != null)
                 {
@@ -126,7 +127,8 @@ internal class InventoryComponent : MonoBehaviour
             inventory.Add(itemToPick.itemData);
             Debug.Log($"Picked up: {itemToPick.itemData.itemName}, Value: {itemToPick.itemData.value}");
 
-            itemPool.ReturnObject(itemToPick.gameObject);
+            string itemTag = itemToPick.itemData.itemName; // Assuming itemName is used as the tag
+            itemPool.ReturnToPool(itemTag, itemToPick.gameObject);
             overlappingItems.Remove(itemToPick);
             Debug.Log($"Removed from OverlappingItemsList: {itemToPick.itemData.itemName}");
         }
