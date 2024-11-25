@@ -9,10 +9,12 @@ public class GoblinController : MonoBehaviour
     private Vector3 movement;
     private Animator animator;
     private InventoryComponent inventoryComponent;
+    private GameObject chest;
 
     private bool isSprinting;
     public float dropItemChance = 0.25f;
     private Coroutine dropItemCoroutine;
+    private Rigidbody rigidbody;
 
 
     private void Start()
@@ -20,6 +22,8 @@ public class GoblinController : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         animator = GetComponentInChildren<Animator>();
         inventoryComponent = GetComponent<InventoryComponent>();
+        rigidbody = GetComponent<Rigidbody>();
+        
     }
 
     private void Update()
@@ -66,14 +70,16 @@ public class GoblinController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        // Move the player
-        rb.linearVelocity = movement * walkSpeed;
+        // Move the player based on input
+        Vector3 movement = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical")).normalized;
+        float currentSpeed = isSprinting ? sprintSpeed : walkSpeed;
+        rigidbody.MovePosition(rigidbody.position + movement * currentSpeed * Time.fixedDeltaTime);
 
         // Rotate the player to face the movement direction
         if (movement != Vector3.zero)
         {
             Quaternion targetRotation = Quaternion.LookRotation(movement);
-            rb.rotation = Quaternion.Slerp(rb.rotation, targetRotation, Time.deltaTime * walkSpeed);
+            rb.rotation = Quaternion.Slerp(rb.rotation, targetRotation, Time.deltaTime * currentSpeed);
         }
     }
 

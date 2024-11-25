@@ -100,14 +100,12 @@ public class BasicEnemyController : MonoBehaviour
                 {
                     player = playerCollider.transform;
                     isChasing = true;
-                    Debug.Log("Player detected and confirmed by vision cone.");
                     return;
                 }
             }
         }
         isChasing = false;
         player = null;
-        Debug.Log("No players detected. Returning to patrol.");
     }
 
     void ChasePlayer()
@@ -137,12 +135,12 @@ public class BasicEnemyController : MonoBehaviour
             yield break;
         }
         isAttacking = true;
+        lastAttackTime = Time.time; // Update last attack time here
         // Add attack logic here (e.g., reduce player health)
         animator.SetTrigger("Attack");
-        Debug.Log("Attacking player!");
+        player.GetComponent<HealthComponent>().TakeDamage();
 
         yield return new WaitForSeconds(attackCooldown);
-        lastAttackTime = Time.time;
         isAttacking = false;
 
         // Ensure the enemy resumes chasing if the player is still within detection radius

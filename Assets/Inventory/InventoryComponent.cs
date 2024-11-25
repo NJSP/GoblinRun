@@ -56,11 +56,14 @@ internal class InventoryComponent : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.I))
         {
+            string inventoryList = "Inventory: ";
             int totalValue = 0;
             foreach (ItemSO item in inventory)
             {
                 totalValue += item.value;
+                inventoryList = inventoryList + ($"Item: {item.itemName}, Value: {item.value}, ");
             }
+            Debug.Log(inventoryList);
             Debug.Log($"Total value of items: {totalValue}");
         }
 
