@@ -15,6 +15,7 @@ public class BasicEnemyController : MonoBehaviour
     private NavMeshAgent agent;
     private Transform player;
     private Animator animator;
+    private VisionCone visionCone;
     private bool isWaiting;
     private bool isChasing;
     private bool isAttacking;
@@ -24,7 +25,10 @@ public class BasicEnemyController : MonoBehaviour
     {
         agent = GetComponent<NavMeshAgent>();
         animator = GetComponentInChildren<Animator>();
+        visionCone = GetComponent<VisionCone>();
         currentPatrolIndex = 0;
+        isChasing = false;
+        isAttacking = false;
         GoToNextPatrolPoint();
     }
 
@@ -32,11 +36,16 @@ public class BasicEnemyController : MonoBehaviour
     {
         animator.SetFloat("Speed", agent.velocity.magnitude);
 
-
         if (isAttacking)
         {
-            animator.SetTrigger("Attack");
-            return;
+            if (Time.time >= lastAttackTime + attackCooldown)
+            {
+                isAttacking = false;
+            }
+            else
+            {
+                return;
+            }
         }
 
         if (isChasing)
@@ -47,11 +56,10 @@ public class BasicEnemyController : MonoBehaviour
         else
         {
             Patrol();
+            animator.SetBool("Chasing", false);
         }
 
         DetectPlayer();
-
-
     }
 
     void Patrol()
@@ -83,16 +91,23 @@ public class BasicEnemyController : MonoBehaviour
 
     void DetectPlayer()
     {
-        Collider[] playersInRange = Physics.OverlapSphere(transform.position, detectionRadius, playerLayer);
-        if (playersInRange.Length > 0)
+        if (visionCone.IsPlayerInSight)
         {
-            player = playersInRange[0].transform;
-            isChasing = true;
+            Collider[] playersInRange = Physics.OverlapSphere(transform.position, detectionRadius, playerLayer);
+            foreach (var playerCollider in playersInRange)
+            {
+                if (playerCollider.CompareTag("Player"))
+                {
+                    player = playerCollider.transform;
+                    isChasing = true;
+                    Debug.Log("Player detected and confirmed by vision cone.");
+                    return;
+                }
+            }
         }
-        else
-        {
-            isChasing = false;
-        }
+        isChasing = false;
+        player = null;
+        Debug.Log("No players detected. Returning to patrol.");
     }
 
     void ChasePlayer()
@@ -116,8 +131,14 @@ public class BasicEnemyController : MonoBehaviour
 
     IEnumerator AttackPlayer()
     {
+        if (player == null)
+        {
+            Debug.LogError("Player reference is null during attack!");
+            yield break;
+        }
         isAttacking = true;
         // Add attack logic here (e.g., reduce player health)
+        animator.SetTrigger("Attack");
         Debug.Log("Attacking player!");
 
         yield return new WaitForSeconds(attackCooldown);
