@@ -75,7 +75,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6cd068760a639a24993d754996ec665f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 5
+  walkSpeed: 5
+  sprintSpeed: 8
+  dropItemChance: 0.5
 --- !u!54 &4400990451321278674
 Rigidbody:
   m_ObjectHideFlags: 0
