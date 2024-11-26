@@ -16,6 +16,7 @@ public class BasicEnemyController : MonoBehaviour
     private Transform player;
     private Animator animator;
     private VisionCone visionCone;
+    private EnemyAttackController attackController;
     private bool isWaiting;
     private bool isChasing;
     private bool isAttacking;
@@ -26,6 +27,7 @@ public class BasicEnemyController : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         animator = GetComponentInChildren<Animator>();
         visionCone = GetComponent<VisionCone>();
+        attackController = GetComponent<EnemyAttackController>();
         currentPatrolIndex = 0;
         isChasing = false;
         isAttacking = false;
@@ -131,14 +133,13 @@ public class BasicEnemyController : MonoBehaviour
     {
         if (player == null)
         {
-            Debug.LogError("Player reference is null during attack!");
             yield break;
         }
         isAttacking = true;
         lastAttackTime = Time.time; // Update last attack time here
         // Add attack logic here (e.g., reduce player health)
-        animator.SetTrigger("Attack");
-        player.GetComponent<HealthComponent>().TakeDamage();
+        attackController.PerformRandomAttack();
+        //player.GetComponent<HealthComponent>().TakeDamage();
 
         yield return new WaitForSeconds(attackCooldown);
         isAttacking = false;

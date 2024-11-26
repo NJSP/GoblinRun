@@ -14,7 +14,7 @@ public class GoblinController : MonoBehaviour
     private bool isSprinting;
     public float dropItemChance = 0.25f;
     private Coroutine dropItemCoroutine;
-    private Rigidbody rigidbody;
+    //private Rigidbody rigidbody;
 
 
     private void Start()
@@ -22,8 +22,6 @@ public class GoblinController : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         animator = GetComponentInChildren<Animator>();
         inventoryComponent = GetComponent<InventoryComponent>();
-        rigidbody = GetComponent<Rigidbody>();
-        
     }
 
     private void Update()
@@ -73,7 +71,7 @@ public class GoblinController : MonoBehaviour
         // Move the player based on input
         Vector3 movement = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical")).normalized;
         float currentSpeed = isSprinting ? sprintSpeed : walkSpeed;
-        rigidbody.MovePosition(rigidbody.position + movement * currentSpeed * Time.fixedDeltaTime);
+        GetComponent<Rigidbody>().MovePosition(GetComponent<Rigidbody>().position + movement * currentSpeed * Time.fixedDeltaTime);
 
         // Rotate the player to face the movement direction
         if (movement != Vector3.zero)

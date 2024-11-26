@@ -4,9 +4,13 @@ using UnityEngine;
 
 internal class InventoryComponent : MonoBehaviour
 {
-    private List<ItemSO> inventory;
+    public List<ItemSO> inventory;
     private List<ItemPickup> overlappingItems = new List<ItemPickup>();
     public ObjectPooler itemPool; // Reference to the ObjectPooler
+    [SerializeField] public GameObject HUD;
+
+    public delegate void InventoryChanged();
+    public event InventoryChanged OnInventoryChanged;
 
     void Start()
     {
@@ -20,6 +24,8 @@ internal class InventoryComponent : MonoBehaviour
         newItem.itemName = name;
         newItem.value = value;
         inventory.Add(newItem);
+        OnInventoryChanged?.Invoke(); // Notify listeners of inventory change
+
     }
 
     void OnTriggerEnter(Collider other)
@@ -101,15 +107,17 @@ internal class InventoryComponent : MonoBehaviour
             }
 
             inventory.Remove(lowestValueItem);
+            OnInventoryChanged?.Invoke(); // Notify listeners of inventory change
             Debug.Log($"Dropped item: {lowestValueItem.itemName} with value {lowestValueItem.value}");
         }
         else
         {
             Debug.Log("No items to drop.");
         }
+       // HUD.GetComponent<HUDController>().UpdateHUD();
     }
 
-    private ItemSO GetLowestValueItem()
+    public ItemSO GetLowestValueItem()
     {
         ItemSO lowestValueItem = null;
         foreach (var item in inventory)
@@ -128,16 +136,26 @@ internal class InventoryComponent : MonoBehaviour
         {
             ItemPickup itemToPick = overlappingItems[0];
             inventory.Add(itemToPick.itemData);
+            OnInventoryChanged?.Invoke(); // Notify listeners of inventory change
             Debug.Log($"Picked up: {itemToPick.itemData.itemName}, Value: {itemToPick.itemData.value}");
 
             string itemTag = itemToPick.itemData.itemName; // Assuming itemName is used as the tag
             itemPool.ReturnToPool(itemTag, itemToPick.gameObject);
             overlappingItems.Remove(itemToPick);
-            Debug.Log($"Removed from OverlappingItemsList: {itemToPick.itemData.itemName}");
+            //HUD.GetComponent<HUDController>().UpdateHUD();
         }
         else
         {
             Debug.Log("No items to pick up.");
         }
+    }
+    public int GetTotalLootValue()
+    {
+        int totalValue = 0;
+        foreach (ItemSO item in inventory)
+        {
+            totalValue += item.value;
+        }
+        return totalValue;
     }
 }
