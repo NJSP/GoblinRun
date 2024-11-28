@@ -5,6 +5,7 @@ public class EnemyAttack : MonoBehaviour
 {
     public string playerTag = "Player"; // Ensure the player is tagged correctly
     [Serialize] public GameObject enemyWeapon;
+    public AudioClip hitSound;
     private Collider attackCollider;
 
 
@@ -35,6 +36,8 @@ public class EnemyAttack : MonoBehaviour
             {
                 playerHealth.TakeDamage();
                 Debug.Log("Player hit by enemy attack!");
+                AudioSource.PlayClipAtPoint(hitSound, transform.position);
+                DisableAttack();
             }
         }
     }

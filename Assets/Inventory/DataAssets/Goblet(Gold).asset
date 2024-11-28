@@ -15,4 +15,7 @@ MonoBehaviour:
   itemName: Goblet_Gold
   icon: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
   prefab: {fileID: 5585640700876931966, guid: d5ba330f7a948d64a93ccfdef10f5bb4, type: 3}
+  sound:
+  - {fileID: 8300000, guid: e56d43712892e054fadb2563e70ce936, type: 3}
+  - {fileID: 8300000, guid: fe61ef19fd52f4b4095287282a863b2d, type: 3}
   value: 5

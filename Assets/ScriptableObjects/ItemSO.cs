@@ -6,5 +6,6 @@ public class ItemSO : ScriptableObject
     public string itemName;
     public Sprite icon;
     public GameObject prefab;
+    public AudioClip[] sound;
     public int value;
 }

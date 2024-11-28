@@ -140,9 +140,9 @@ internal class InventoryComponent : MonoBehaviour
             Debug.Log($"Picked up: {itemToPick.itemData.itemName}, Value: {itemToPick.itemData.value}");
 
             string itemTag = itemToPick.itemData.itemName; // Assuming itemName is used as the tag
+            itemToPick.PlayPickupSound(); // Play the pickup sound
             itemPool.ReturnToPool(itemTag, itemToPick.gameObject);
             overlappingItems.Remove(itemToPick);
-            //HUD.GetComponent<HUDController>().UpdateHUD();
         }
         else
         {

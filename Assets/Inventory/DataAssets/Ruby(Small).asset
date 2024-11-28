@@ -15,4 +15,6 @@ MonoBehaviour:
   itemName: Ruby
   icon: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
   prefab: {fileID: 5585640700876931966, guid: 213e4c860263f964f8ac5028468fa6d7, type: 3}
+  sound:
+  - {fileID: 8300000, guid: 6209a2231fa3d8b49b40ed7d75e12739, type: 3}
   value: 30
