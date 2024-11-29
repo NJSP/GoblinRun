@@ -120,7 +120,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemData: {fileID: 11400000, guid: c4c484d7cfd4b9d4683854bc3e670e96, type: 2}
   pickupSound: {fileID: 8300000, guid: e56d43712892e054fadb2563e70ce936, type: 3}
-  soundVolume: 1
+  soundVolume: 100
 --- !u!1 &5751433855335775782
 GameObject:
   m_ObjectHideFlags: 0

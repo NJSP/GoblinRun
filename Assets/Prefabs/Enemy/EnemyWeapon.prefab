@@ -86,5 +86,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerTag: Player
-  enemyWeapon: {fileID: 0}
+  enemyWeapon: {fileID: 5563600950025215251}
   hitSound: {fileID: 8300000, guid: c9b215d5398dc6841aee6e5a257b9585, type: 3}
+  hitEffectPrefab: {fileID: 8303084177287885057, guid: 61ce777b5c9087343a3c806f1f96e9b4, type: 3}
+  hitPoint: {fileID: 0}

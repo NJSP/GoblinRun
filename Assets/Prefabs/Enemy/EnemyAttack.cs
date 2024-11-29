@@ -7,6 +7,8 @@ public class EnemyAttack : MonoBehaviour
     [Serialize] public GameObject enemyWeapon;
     public AudioClip hitSound;
     private Collider attackCollider;
+    public GameObject hitEffectPrefab;
+    public Transform hitPoint;
 
 
     private void Start()
@@ -37,6 +39,8 @@ public class EnemyAttack : MonoBehaviour
                 playerHealth.TakeDamage();
                 Debug.Log("Player hit by enemy attack!");
                 AudioSource.PlayClipAtPoint(hitSound, transform.position);
+                GameObject effect = Instantiate(hitEffectPrefab, transform.position, Quaternion.identity);
+                Destroy(effect, 1f);
                 DisableAttack();
             }
         }

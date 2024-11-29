@@ -10,6 +10,9 @@ public class BasicEnemyController : MonoBehaviour
     public float attackRadius = 2f;
     public float attackCooldown = 1f;
     public LayerMask playerLayer;
+    public float searchDuration = 10f; // Duration to look around at the last known location
+    public float searchPointDistance = 5f; // Distance to move in the player's forward direction
+
 
     private int currentPatrolIndex;
     private NavMeshAgent agent;
@@ -21,6 +24,12 @@ public class BasicEnemyController : MonoBehaviour
     private bool isChasing;
     private bool isAttacking;
     private float lastAttackTime;
+    private bool isSearching;
+    private bool isSearchingCoroutineRunning;
+    private Vector3 lastKnownPlayerPosition;
+    private Vector3 lastKnownPlayerForward;
+
+
 
     void Start()
     {
@@ -31,6 +40,7 @@ public class BasicEnemyController : MonoBehaviour
         currentPatrolIndex = 0;
         isChasing = false;
         isAttacking = false;
+        isSearching = false;
         GoToNextPatrolPoint();
     }
 
@@ -55,6 +65,14 @@ public class BasicEnemyController : MonoBehaviour
             ChasePlayer();
             animator.SetBool("Chasing", true);
         }
+        else if (isSearching)
+        {
+            if (!isSearchingCoroutineRunning)
+            {
+                StartCoroutine(SearchForPlayer());
+            }
+            animator.SetBool("Chasing", false);
+        }
         else
         {
             Patrol();
@@ -62,6 +80,7 @@ public class BasicEnemyController : MonoBehaviour
         }
 
         DetectPlayer();
+
     }
 
     void Patrol()
@@ -101,12 +120,20 @@ public class BasicEnemyController : MonoBehaviour
                 if (playerCollider.CompareTag("Player"))
                 {
                     player = playerCollider.transform;
+                    lastKnownPlayerPosition = player.position; // Update last known player position
+                    lastKnownPlayerForward = player.forward; // Update last known player forward direction
                     isChasing = true;
+                    isSearching = false;
                     return;
                 }
             }
         }
-        isChasing = false;
+        if (isChasing)
+        {
+            isChasing = false;
+            isSearching = true;
+            StartCoroutine(SearchForPlayer());
+        }
         player = null;
     }
 
@@ -115,6 +142,8 @@ public class BasicEnemyController : MonoBehaviour
         if (player == null)
         {
             isChasing = false;
+            isSearching = true;
+            StartCoroutine(SearchForPlayer());
             return;
         }
 
@@ -127,6 +156,92 @@ public class BasicEnemyController : MonoBehaviour
                 StartCoroutine(AttackPlayer());
             }
         }
+    }
+
+    IEnumerator SearchForPlayer()
+    {
+        isSearchingCoroutineRunning = true;
+
+        // Pick a point within a cone pointing towards the player's last known location
+        Vector3 directionToPlayer = (lastKnownPlayerPosition - transform.position).normalized;
+        float angle = Random.Range(-45f, 45f); // Cone angle
+        Vector3 searchDirection = Quaternion.Euler(0, angle, 0) * directionToPlayer;
+        Vector3 searchPoint = lastKnownPlayerPosition + searchDirection * searchPointDistance;
+
+        NavMeshHit hit;
+        NavMesh.SamplePosition(searchPoint, out hit, searchPointDistance, 1);
+        Vector3 finalPosition = hit.position;
+
+        agent.destination = finalPosition;
+
+        while (agent.pathPending || agent.remainingDistance > 0.5f)
+        {
+            // Rotate to face the direction of movement
+            if (agent.velocity.sqrMagnitude > Mathf.Epsilon)
+            {
+                transform.rotation = Quaternion.LookRotation(agent.velocity.normalized);
+            }
+            yield return null;
+        }
+
+        // Look around for a while
+        float searchEndTime = Time.time + searchDuration;
+        while (Time.time < searchEndTime)
+        {
+            // Smoothly rotate between 30 and 90 degrees to the left
+            float leftAngle = Random.Range(30f, 90f);
+            Quaternion leftRotation = Quaternion.Euler(0, -leftAngle, 0) * transform.rotation;
+            while (Quaternion.Angle(transform.rotation, leftRotation) > 0.1f)
+            {
+                transform.rotation = Quaternion.RotateTowards(transform.rotation, leftRotation, 120 * Time.deltaTime);
+                yield return null;
+            }
+
+            yield return new WaitForSeconds(1.5f);
+
+            // Smoothly rotate between 90 and 150 degrees to the right
+            float rightAngle = Random.Range(90f, 150f);
+            Quaternion rightRotation = Quaternion.Euler(0, rightAngle, 0) * transform.rotation;
+            while (Quaternion.Angle(transform.rotation, rightRotation) > 0.1f)
+            {
+                transform.rotation = Quaternion.RotateTowards(transform.rotation, rightRotation, 120 * Time.deltaTime);
+                yield return null;
+            }
+
+            yield return new WaitForSeconds(1.5f);
+
+            // Pick a random point within 10 units and move to that location
+            Vector3 randomDirection = Random.insideUnitSphere * 10f;
+            randomDirection += transform.position;
+            NavMesh.SamplePosition(randomDirection, out hit, 10f, 1);
+            finalPosition = hit.position;
+
+            agent.destination = finalPosition;
+
+            while (agent.pathPending || agent.remainingDistance > 0.5f)
+            {
+                // Rotate to face the direction of movement
+                if (agent.velocity.sqrMagnitude > Mathf.Epsilon)
+                {
+                    transform.rotation = Quaternion.LookRotation(agent.velocity.normalized);
+                }
+                yield return null;
+            }
+
+            // Check if the player is in sight
+            if (visionCone.IsPlayerInSight)
+            {
+                isSearching = false;
+                isChasing = true;
+                isSearchingCoroutineRunning = false;
+                yield break;
+            }
+        }
+
+        // If the player is not found, resume patrolling
+        isSearching = false;
+        isSearchingCoroutineRunning = false;
+        GoToNextPatrolPoint();
     }
 
     IEnumerator AttackPlayer()
