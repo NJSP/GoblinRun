@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e5de82d81162baf45b2ef44fa1b83b1a, type: 3}
+  m_Name: Telescope
+  m_EditorClassIdentifier: 
+  itemName: Telescope
+  icon: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  prefab: {fileID: 5585640700876931966, guid: b0c4d9b9ac973bd45a399bf519e445cf, type: 3}
+  sound:
+  - {fileID: 8300000, guid: e56d43712892e054fadb2563e70ce936, type: 3}
+  - {fileID: 8300000, guid: fe61ef19fd52f4b4095287282a863b2d, type: 3}
+  value: 20
