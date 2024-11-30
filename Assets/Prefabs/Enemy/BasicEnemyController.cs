@@ -112,7 +112,7 @@ public class BasicEnemyController : MonoBehaviour
 
     void DetectPlayer()
     {
-        if (visionCone.IsPlayerInSight)
+        if (!isChasing && visionCone.IsPlayerInSight)
         {
             Collider[] playersInRange = Physics.OverlapSphere(transform.position, detectionRadius, playerLayer);
             foreach (var playerCollider in playersInRange)
@@ -128,13 +128,31 @@ public class BasicEnemyController : MonoBehaviour
                 }
             }
         }
-        if (isChasing)
+        else if (isChasing)
         {
-            isChasing = false;
-            isSearching = true;
-            StartCoroutine(SearchForPlayer());
+            Collider[] playersInRange = Physics.OverlapSphere(transform.position, detectionRadius, playerLayer);
+            bool playerDetected = false;
+            foreach (var playerCollider in playersInRange)
+            {
+                if (playerCollider.CompareTag("Player"))
+                {
+                    player = playerCollider.transform;
+                    playerDetected = true;
+                    break;
+                }
+            }
+
+            if (!playerDetected)
+            {
+                isChasing = false;
+                isSearching = true;
+                StartCoroutine(SearchForPlayer());
+            }
         }
-        player = null;
+        else
+        {
+            player = null;
+        }
     }
 
     void ChasePlayer()

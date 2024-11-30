@@ -124,7 +124,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   patrolPoints: []
   waitTime: 5
-  detectionRadius: 5
+  detectionRadius: 15
   attackRadius: 2
   attackCooldown: 2
   playerLayer:
@@ -975,8 +975,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerTag: Player
   enemyWeapon: {fileID: 5563600950025215251, guid: 2a1637c5d9dc04042a996085b67f7881, type: 3}
-  hitSound: {fileID: 8300000, guid: c9b215d5398dc6841aee6e5a257b9585, type: 3}
-  hitEffectPrefab: {fileID: 8032559352558937306, guid: 2bc6d6d31bb7739468cbbb05276252cb, type: 3}
+  hitSound: {fileID: 8300000, guid: 1ea75f5166dc3eb4894ed32aa082c23b, type: 3}
+  hitEffectPrefab: {fileID: 5238538877814813142, guid: 47096eff328e11a418ace7db2d72aa97, type: 3}
   hitPoint: {fileID: 62016485316426701, guid: 2a1637c5d9dc04042a996085b67f7881, type: 3}
 --- !u!65 &3714456607934553154
 BoxCollider:
