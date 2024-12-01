@@ -129,7 +129,7 @@ MonoBehaviour:
   attackCooldown: 2
   playerLayer:
     serializedVersion: 2
-    m_Bits: 1
+    m_Bits: 64
   searchDuration: 10
   searchPointDistance: 5
 --- !u!114 &6617834404701655494
@@ -144,7 +144,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1fbbee010bf32b74295d8d88221cf23a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  VisionConeMaterial: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  VisionConeMaterial: {fileID: 10306, guid: 0000000000000000f000000000000000, type: 0}
   VisionRange: 15
   VisionAngle: 110
   VisionObstructingLayer:

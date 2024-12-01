@@ -7,6 +7,8 @@ public class LeverScript : MonoBehaviour, IInteractable
     public GameObject door;
     public float rotationSpeed = 2.0f;
     private Quaternion targetRotation;
+    public float doorSlideDistance = 2.0f;
+    public bool SlidingDoor = false;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -22,17 +24,28 @@ public class LeverScript : MonoBehaviour, IInteractable
 
     public void Interact()
     {
-        if (isOn)
+        if (SlidingDoor)
         {
-            // smoothly rotate the door back to its original position
-            targetRotation = Quaternion.Euler(door.transform.eulerAngles.x, door.transform.eulerAngles.y + 90, door.transform.eulerAngles.z);
-            isOn = false;
+            if (isOn)
+            {
+                door.transform.position += door.transform.up * doorSlideDistance;
+            }
+            else
+            {
+                door.transform.position -= door.transform.up * doorSlideDistance;
+            }
         }
         else
         {
-            // smoothly rotate the door to the open position
-            targetRotation = Quaternion.Euler(door.transform.eulerAngles.x, door.transform.eulerAngles.y - 90, door.transform.eulerAngles.z);
-            isOn = true;
+            if (isOn)
+            {
+                targetRotation *= Quaternion.Euler(0, 0, 90);
+            }
+            else
+            {
+                targetRotation *= Quaternion.Euler(0, 0, -90);
+            }
+            isOn = !isOn;
         }
     }
 }

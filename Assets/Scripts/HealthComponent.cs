@@ -43,5 +43,8 @@ public class HealthComponent : MonoBehaviour
     {
         Debug.Log("Player has died");
         ragdollController.EnableRagdoll();
+
+        // activate the DeadMenu in the HUD
+        HUD.GetComponent<HUDController>().deadMenu.SetActive(true);
     }
 }

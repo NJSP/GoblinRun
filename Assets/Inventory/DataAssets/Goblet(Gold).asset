@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5de82d81162baf45b2ef44fa1b83b1a, type: 3}
   m_Name: Goblet(Gold)
   m_EditorClassIdentifier: 
-  itemName: Goblet_Gold
-  icon: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  itemName: Goblet
+  icon: {fileID: 21300000, guid: d8608fff6946b794ebf0789d097d07b6, type: 3}
   prefab: {fileID: 5585640700876931966, guid: d5ba330f7a948d64a93ccfdef10f5bb4, type: 3}
   sound:
   - {fileID: 8300000, guid: e56d43712892e054fadb2563e70ce936, type: 3}

@@ -72,14 +72,6 @@ internal class InventoryComponent : MonoBehaviour
             Debug.Log(inventoryList);
             Debug.Log($"Total value of items: {totalValue}");
         }
-
-        if (Input.GetKeyDown(KeyCode.Z))
-        {
-            foreach (ItemPickup item in overlappingItems)
-            {
-                Debug.Log($"Overlapping Item: {item.itemData.itemName}");
-            }
-        }
     }
 
     public void DropLowestValueItem()
