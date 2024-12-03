@@ -3,6 +3,7 @@ using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
+    public GameObject creditsScreen;
     public void PlayGame()
     {
         // Replace "GameScene" with the name of your game scene
@@ -15,10 +16,16 @@ public class MainMenu : MonoBehaviour
         Application.Quit(); // Works in builds only
     }
 
-    public void ShowCredits()
+    public void ToggleCredits()
     {
-        Debug.Log("Credits Menu Clicked");
-        // Implement credits logic or scene transition here
-        // Example: SceneManager.LoadScene("CreditsScene");
+        if (creditsScreen.activeSelf)
+        {
+            creditsScreen.SetActive(false);
+        }
+        else
+        {
+            creditsScreen.SetActive(true);
+        }
+
     }
 }
