@@ -5,6 +5,7 @@ public class GoblinController : MonoBehaviour
 {
     public float walkSpeed = 5f; // Movement speed
     public float sprintSpeed = 8f; // Sprint speed
+    public UltimateJoystick MoveStick;
     private Rigidbody rb;
     private Vector3 movement;
     private Animator animator;
@@ -27,8 +28,10 @@ public class GoblinController : MonoBehaviour
     private void Update()
     {
         // Get input
-        float moveX = Input.GetAxisRaw("Horizontal");
-        float moveZ = Input.GetAxisRaw("Vertical");
+        //float moveX = Input.GetAxisRaw("Horizontal"); <- Old input for keyboard
+        //float moveZ = Input.GetAxisRaw("Vertical");
+        float moveX = UltimateJoystick.GetHorizontalAxis("MoveStick");
+        float moveZ = UltimateJoystick.GetVerticalAxis("MoveStick");
 
         // Calculate movement direction
         movement = new Vector3(moveX, 0, moveZ);
@@ -69,9 +72,11 @@ public class GoblinController : MonoBehaviour
     private void FixedUpdate()
     {
         // Move the player based on input
-        Vector3 movement = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical")).normalized;
+        float moveX = UltimateJoystick.GetHorizontalAxis("MoveStick");
+        float moveZ = UltimateJoystick.GetVerticalAxis("MoveStick");
+        Vector3 movement = new Vector3(moveX, 0, moveZ).normalized;
         float currentSpeed = isSprinting ? sprintSpeed : walkSpeed;
-        GetComponent<Rigidbody>().MovePosition(GetComponent<Rigidbody>().position + movement * currentSpeed * Time.fixedDeltaTime);
+        rb.MovePosition(rb.position + movement * currentSpeed * Time.fixedDeltaTime);
 
         // Rotate the player to face the movement direction
         if (movement != Vector3.zero)
